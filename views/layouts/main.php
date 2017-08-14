@@ -10,7 +10,14 @@ use webvimark\modules\UserManagement\UserManagementModule;
 
 $bundle = yiister\gentelella\assets\Asset::register($this);
 
+
 ?>
+<?php 
+                        $name = app\models\Pegawai::find()->where(['user_id' => \Yii::$app->user->identity->id])->one()->nama;
+                        if (empty($name)) {
+                            $name = \Yii::$app->user->identity->username;
+                        }
+                        ?>
 <?php $this->beginPage(); ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
@@ -38,26 +45,21 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
             <div class="left_col scroll-view">
 
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="/" class="site_title"><i class="fa fa-hospital-o"></i> <span>KLINIK</span></a>
+                    <?= Html::a('<i class="fa fa-hospital-o"></i> <span>KLINIK</span>', \yii\helpers\Url::to('/'), ['class'=>"site_title"]) ?>
                 </div>
                 <div class="clearfix"></div>
 
                 <!-- menu prile quick info -->
-                <div class="profile">
+                <!-- <div class="profile">
                     <div class="profile_pic">
                         <img src="https://3.bp.blogspot.com/-eTPEHqY36LU/WQGEliEWHvI/AAAAAAAABpw/qxI7VKUGHacXlSIixNM725UvZCHh0yizQCLcB/s1600/atomix_user31.png" alt="..." class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
                         <span>Welcome,</span>
-                        <?php 
-                            $name = app\models\Pegawai::find()->where(['user_id' => \Yii::$app->user->identity->id])->one()->nama;
-                            if(empty($name)){
-                                $name = \Yii::$app->user->identity->username;
-                            }
-                        ?>
+                        
                         <h2><?= $name ?></h2>
                     </div>
-                </div>
+                </div> -->
                 <!-- /menu prile quick info -->
 
                 <br />
@@ -72,23 +74,23 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
                                 "items" => [
                                     ["label" => "Home", "url" => ["/"], "icon" => "home"],
                                     ["label" => "Pendaftaran Pasien", "url" => ["pasien/index"], "icon" => "user"],
-                                    ["label" => "Pemeriksaan Pasien", "url" =>["/"], "icon" => "files-o"],
-                                    ["label" => "Penebusan Obat", "url" =>["/"], "icon" => "th"],
+                                    ["label" => "Pemeriksaan Pasien", "url" => ["/"], "icon" => "files-o"],
+                                    ["label" => "Penebusan Obat", "url" => ["/"], "icon" => "th"],
                                     [
                                         "label" => "Master",
                                         "url" => "#",
                                         "icon" => "table",
                                         "items" => [
                                             [
-                                                'label' => UserManagementModule::t('back', 'User'), 
+                                                'label' => UserManagementModule::t('back', 'User'),
                                                 'url' => ['/user-management/user/index']
                                             ],
                                             [
-                                                'label' => 'Pegawai', 
+                                                'label' => 'Pegawai',
                                                 'url' => ['/pegawai/index']
                                             ],
                                             [
-                                                'label' => 'Poli', 
+                                                'label' => 'Poli',
                                                 'url' => ['/poli/index']
                                             ],
                                             
@@ -109,7 +111,7 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
                                             //     'url' => ['/user-management/auth-item-group/index']
                                             // ],
                                             [
-                                                'label' => UserManagementModule::t('back', 'Visit log'), 
+                                                'label' => UserManagementModule::t('back', 'Visit log'),
                                                 'url' => ['/user-management/user-visit-log/index']
                                             ],
                                         ],
@@ -154,99 +156,16 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="http://placehold.it/128x128" alt="">John Doe
+                                <img src="http://placehold.it/128x128" alt=""><?= $name ?>
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
                                 <li><a href="javascript:;">  Profile</a>
                                 </li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <span class="badge bg-red pull-right">50%</span>
-                                        <span>Settings</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">Help</a>
-                                </li>
-                                <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                                <li><?= Html::a('<i class="fa fa-sign-out pull-right"></i> Logout', \yii\helpers\Url::to(['/user-management/auth/logout'])) ?>
                                 </li>
                             </ul>
                         </li>
-
-                        <li role="presentation" class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                                <i class="fa fa-envelope-o"></i>
-                                <span class="badge bg-green">6</span>
-                            </a>
-                            <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                                <li>
-                                    <a>
-                      <span class="image">
-                                        <img src="http://placehold.it/128x128" alt="Profile Image" />
-                                    </span>
-                      <span>
-                                        <span>John Smith</span>
-                      <span class="time">3 mins ago</span>
-                      </span>
-                      <span class="message">
-                                        Film festivals used to be do-or-die moments for movie makers. They were where...
-                                    </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                      <span class="image">
-                                        <img src="http://placehold.it/128x128" alt="Profile Image" />
-                                    </span>
-                      <span>
-                                        <span>John Smith</span>
-                      <span class="time">3 mins ago</span>
-                      </span>
-                      <span class="message">
-                                        Film festivals used to be do-or-die moments for movie makers. They were where...
-                                    </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                      <span class="image">
-                                        <img src="http://placehold.it/128x128" alt="Profile Image" />
-                                    </span>
-                      <span>
-                                        <span>John Smith</span>
-                      <span class="time">3 mins ago</span>
-                      </span>
-                      <span class="message">
-                                        Film festivals used to be do-or-die moments for movie makers. They were where...
-                                    </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                      <span class="image">
-                                        <img src="http://placehold.it/128x128" alt="Profile Image" />
-                                    </span>
-                      <span>
-                                        <span>John Smith</span>
-                      <span class="time">3 mins ago</span>
-                      </span>
-                      <span class="message">
-                                        Film festivals used to be do-or-die moments for movie makers. They were where...
-                                    </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <div class="text-center">
-                                        <a href="/">
-                                            <strong>See All Alerts</strong>
-                                            <i class="fa fa-angle-right"></i>
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-
                     </ul>
                 </nav>
             </div>
@@ -256,7 +175,7 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
 
         <!-- page content -->
         <div class="right_col" role="main">
-            <?php if (isset($this->params['h1'])): ?>
+            <?php if (isset($this->params['h1'])) : ?>
                 <div class="page-title">
                     <div class="title_left">
                         <h1><?= $this->params['h1'] ?></h1>
@@ -279,13 +198,13 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
         </div>
         <!-- /page content -->
         <!-- footer content -->
-        <footer>
+        <!-- <footer>
             <div class="pull-right">
-                Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com" rel="nofollow" target="_blank">Colorlib</a><br />
-                Extension for Yii framework 2 by <a href="http://yiister.ru" rel="nofollow" target="_blank">Yiister</a>
+                Klikik Application - 2017<br />
+                By Lutfi Nurhidayat
             </div>
             <div class="clearfix"></div>
-        </footer>
+        </footer> -->
         <!-- /footer content -->
     </div>
 

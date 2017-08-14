@@ -51,18 +51,21 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>' => '<controller>/index',
             ],
         ],
-        */
     ],
     'modules'=>[
         'user-management' => [
-            'class' => 'webvimark\modules\UserManagement\UserManagementModule',
+            'class' => 'webvimark\modules\UserManagement\UserManagementModule',            
+            'controllerMap' => [
+                'user' => 'app\controllers\UserController',
+            ],
 
             // 'enableRegistration' => true,
 

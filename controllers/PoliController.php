@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * PoliController implements the CRUD actions for Poli model.
  */
-class PoliController extends Controller
+class PoliController extends BaseController
 {
     /**
      * @inheritdoc

@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * PegawaiController implements the CRUD actions for Pegawai model.
  */
-class PegawaiController extends Controller
+class PegawaiController extends BaseController
 {
     /**
      * @inheritdoc

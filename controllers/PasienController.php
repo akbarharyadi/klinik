@@ -4,14 +4,14 @@ namespace app\controllers;
 use Yii;
 use app\models\Pasien;
 use app\models\PasienSearch;
-use yii\web\Controller;
+use app\controllers\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * PasienController implements the CRUD actions for Pasien model.
  */
-class PasienController extends Controller
+class PasienController extends BaseController
 {
     /**
      * @inheritdoc
