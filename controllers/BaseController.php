@@ -41,6 +41,16 @@ class BaseController extends Controller
       if ($pegawai->tipe != 0){
         throw new \yii\web\ForbiddenHttpException(Yii::t('yii', 'Anda tidak diperbolehkan melakukan akses ini.'));
       }
+		}
+		if(Yii::$app->controller->id == 'periksa'){
+      if ($pegawai->tipe != 1){
+        throw new \yii\web\ForbiddenHttpException(Yii::t('yii', 'Anda tidak diperbolehkan melakukan akses ini.'));
+      }
+		}
+		if(Yii::$app->controller->id == 'tebus'){
+      if ($pegawai->tipe != 2){
+        throw new \yii\web\ForbiddenHttpException(Yii::t('yii', 'Anda tidak diperbolehkan melakukan akses ini.'));
+      }
     }
     if(Yii::$app->controller->id == 'pegawai' or Yii::$app->controller->id == 'poli'){
       if (!Yii::$app->user->isSuperadmin){

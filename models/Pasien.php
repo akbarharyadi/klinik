@@ -37,7 +37,7 @@ class Pasien extends \yii\db\ActiveRecord
         return [
             [['no_pasien', 'nama', 'nomor_telp'], 'required', 'message' => '{attribute} harus diisi.'],
             [['tanggal_lahir'], 'safe'],
-            [['jenis_kelamin', 'created_at', 'updated_at'], 'integer'],
+            [['jenis_kelamin', 'created_at', 'updated_at', 'id_poli', 'id_doktor'], 'integer'],
             [['nama', 'tempat_lahir'], 'string', 'max' => 100, 'min' => 3],
             [['nomor_telp'], 'number'],
             [['nomor_telp'], 'string', 'min' => 11, 'max' => 12],
@@ -82,6 +82,18 @@ class Pasien extends \yii\db\ActiveRecord
         $ar = self::getStatusList();
 
         return isset($ar[$val]) ? $ar[$val] : $val;
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->status = 0;
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

@@ -1,45 +1,43 @@
 <?php
 
 use yii\helpers\Html;
-use yiister\gentelella\widgets\grid\GridView;
+use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\PasienSearch */
+/* @var $searchModel app\models\PeriksaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Data Pasien');
+$this->title = Yii::t('app', 'Data Pemeriksaan');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="pasien-index">
+<div class="periksa-index">
 
-    <h2><?= Html::encode($this->title) ?></h2>
+    <h1><?= Html::encode($this->title) ?></h1>
     <hr style='border-top: 1px solid #8c8b8b;'>
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Tambah Pasien'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        // 'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            //'id',
-            'no_pasien',
-            'nama',
-            'tempat_lahir',
-            'tanggal_lahir',
+            // 'id',
             [
-                'attribute' => 'jenis_kelamin',
-                'header' => 'Jenis Kelamin',
+                'header' => "Nomor Pasien",
                 'value' => function($model){
-                    return ($model->jenis_kelamin == 1 ? 'Perempuan' : 'Laki-Laki');
+                    return \app\models\Pasien::findOne($model->pasien_id)->no_pasien;
                 }
             ],
-            'nomor_telp',
+            [
+                'header' => "Nama Pasien",
+                'value' => function($model){
+                    return \app\models\Pasien::findOne($model->pasien_id)->nama;
+                }
+            ],
+            'keterangan:ntext',
+            'resep:ntext',
             // 'created_at',
             // 'updated_at',
 

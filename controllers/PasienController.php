@@ -49,7 +49,7 @@ class PasienController extends BaseController
      * @return mixed
      */
     public function actionView($id)
-    {   
+    {
         $model = $this->findModel($id);
         $model->tanggal_lahir = \date('d-m-Y', \strtotime($model->tanggal_lahir));
         return $this->render('view', [
@@ -70,7 +70,7 @@ class PasienController extends BaseController
             $model->tanggal_lahir = \date('Y-m-d', \strtotime($model->tanggal_lahir));
             $model->no_pasien = 'PS' . $this->getNumberId() . date("m") . date("Y");
             if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index']);
             }
         }
         return $this->render('create', [
@@ -91,7 +91,7 @@ class PasienController extends BaseController
         if ($model->load(Yii::$app->request->post())) {
             $model->tanggal_lahir = \date('Y-m-d', \strtotime($model->tanggal_lahir));
             if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['update', 'id' => $model->id]);
             }
         }
         return $this->render('update', [
@@ -139,5 +139,28 @@ class PasienController extends BaseController
             $number = $pasien->id + 1;
         }
         return str_pad((string)$number, 6, "0", STR_PAD_LEFT);
+    }
+
+    public function actionGetPetugas()
+    {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $id = end($_POST['depdrop_parents']);
+            $list = \app\models\Pegawai::find()->andWhere(['poli_id' => $id])->asArray()->all();
+            $selected = null;
+            if ($id != null && count($list) > 0) {
+                $selected = '';
+                foreach ($list as $i => $account) {
+                    $out[] = ['id' => $account['id'], 'name' => $account['nama']];
+                    if ($i == 0) {
+                        $selected = $account['id'];
+                    }
+                }
+                // Shows how you can preselect a value
+                echo \yii\helpers\Json::encode(['output' => $out, 'selected' => $selected]);
+                return;
+            }
+        }
+        echo \yii\helpers\Json::encode(['output' => '', 'selected' => '']);
     }
 }

@@ -13,11 +13,11 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
 
 ?>
 <?php 
-                        $name = app\models\Pegawai::find()->where(['user_id' => \Yii::$app->user->identity->id])->one()->nama;
-                        if (empty($name)) {
-                            $name = \Yii::$app->user->identity->username;
-                        }
-                        ?>
+$name = app\models\Pegawai::find()->where(['user_id' => \Yii::$app->user->identity->id])->one()->nama;
+if (empty($name)) {
+    $name = \Yii::$app->user->identity->username;
+}
+?>
 <?php $this->beginPage(); ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
@@ -45,7 +45,7 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
             <div class="left_col scroll-view">
 
                 <div class="navbar nav_title" style="border: 0;">
-                    <?= Html::a('<i class="fa fa-hospital-o"></i> <span>KLINIK</span>', \yii\helpers\Url::to('/'), ['class'=>"site_title"]) ?>
+                    <?= Html::a('<i class="fa fa-hospital-o"></i> <span>KLINIK</span>', \yii\helpers\Url::to('/'), ['class' => "site_title"]) ?>
                 </div>
                 <div class="clearfix"></div>
 
@@ -72,10 +72,58 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
                         \yiister\gentelella\widgets\Menu::widget(
                             [
                                 "items" => [
-                                    ["label" => "Home", "url" => ["/"], "icon" => "home"],
-                                    ["label" => "Pendaftaran Pasien", "url" => ["pasien/index"], "icon" => "user"],
-                                    ["label" => "Pemeriksaan Pasien", "url" => ["/"], "icon" => "files-o"],
-                                    ["label" => "Penebusan Obat", "url" => ["/"], "icon" => "th"],
+                                    [
+                                        "label" => "Home",
+                                        "url" => ["/"],
+                                        "icon" => "home"
+                                    ],
+                                    [
+                                        "label" => "Pendaftaran Pasien",
+                                        "url" => ["pasien/index"],
+                                        "icon" => "user",
+                                        'active' => ($this->context->route == 'pasien/index'
+                                            || $this->context->route == 'pasien/create'
+                                            || $this->context->route == 'pasien/update'
+                                            || $this->context->route == 'pasien/view')
+                                    ],
+                                    [
+                                        "label" => "Periksa",
+                                        "url" => '#',
+                                        "icon" => "files-o",
+                                        'active' => ($this->context->route == 'periksa/index'
+                                            || $this->context->route == 'periksa/create'
+                                            || $this->context->route == 'periksa/update'
+                                            || $this->context->route == 'periksa/view'),
+                                        "items" => [
+                                            [
+                                                'label' => 'Periksa Pasien',
+                                                'url' => ['periksa/create']
+                                            ],
+                                            [
+                                                'label' => 'List Periksa Pasien',
+                                                'url' => ['periksa/index']
+                                            ],
+                                        ]
+                                    ],
+                                    [
+                                        "label" => "Penebusan Obat",
+                                        "url" => '#',
+                                        "icon" => "th",
+                                        'active' => ($this->context->route == 'tebus/index'
+                                            || $this->context->route == 'tebus/create'
+                                            || $this->context->route == 'tebus/update'
+                                            || $this->context->route == 'tebus/view'),
+                                        "items" => [
+                                            [
+                                                'label' => 'Tebus Obat',
+                                                'url' => ['tebus/create']
+                                            ],
+                                            [
+                                                'label' => 'List Penebusan Obat',
+                                                'url' => ['tebus/index']
+                                            ],
+                                        ]
+                                    ],
                                     [
                                         "label" => "Master",
                                         "url" => "#",
@@ -160,7 +208,6 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                <li><a href="javascript:;">  Profile</a>
                                 </li>
                                 <li><?= Html::a('<i class="fa fa-sign-out pull-right"></i> Logout', \yii\helpers\Url::to(['/user-management/auth/logout'])) ?>
                                 </li>

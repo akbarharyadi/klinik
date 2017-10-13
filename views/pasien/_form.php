@@ -2,6 +2,9 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use dosamigos\datepicker\DatePicker;
+use kartik\depdrop\DepDrop;
+use kartik\select2\Select2;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Pasien */
@@ -11,7 +14,7 @@ use dosamigos\datepicker\DatePicker;
 <div class="pasien-form">
 
     <?php $form = ActiveForm::begin([
-        'layout' => 'horizontal',
+        'layout' => 'horizontal',   
         'fieldConfig' => [
             'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
             'horizontalCssClasses' => [
@@ -90,6 +93,37 @@ use dosamigos\datepicker\DatePicker;
         <div class="col-md-4">
             <?= $form->field($model, 'nomor_telp')
                 ->textInput(['placeholder' => 'Nomor Telp'])->label(false); ?>
+        </div>
+    </div>
+    <div class="row">
+        <?= Html::activeLabel($model, 'id_poli', [
+            'label' => 'Poli',
+            'class' => 'col-md-3 control-label'
+        ]) ?>
+        <div class="col-md-4">
+            <?= $form->field($model, 'id_poli')->widget(Select2::classname(), [
+                    'data' => yii\helpers\ArrayHelper::map(app\models\Poli::find()->asArray()->all(), 'id', 'nama'),
+                    'options' => ['placeholder' => 'Pilih Petugas'],
+                ])->label(false); ?>
+        </div>
+    </div>
+    <div class="row">
+        <?= Html::activeLabel($model, 'id_doktor', [
+            'label' => 'Doktor',
+            'class' => 'col-md-3 control-label'
+        ]) ?>
+        <div class="col-md-4">
+            <?= $form->field($model, 'id_doktor')->widget(DepDrop::classname(), [
+                'data'=> (!empty($model->id_doktor) ? [$model->id_doktor => app\models\Pegawai::find()->where(['id' => $model->id_doktor])->one()->nama] : null),
+                'options' => ['placeholder' => 'Pilih Petugas'],
+                'type' => DepDrop::TYPE_SELECT2,
+                'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
+                'pluginOptions'=>[
+                    'depends'=>['pasien-id_poli'],
+                    'url' => Url::to(['/pasien/get-petugas']),
+                    'loadingText' => ' --- Loading ---',
+                ]
+            ])->label(false); ?>
         </div>
     </div>
     <hr style='border-top: 1px solid #8c8b8b;'>
