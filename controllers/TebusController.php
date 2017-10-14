@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * TebusController implements the CRUD actions for Tebus model.
  */
-class TebusController extends Controller
+class TebusController extends BaseController
 {
     /**
      * @inheritdoc

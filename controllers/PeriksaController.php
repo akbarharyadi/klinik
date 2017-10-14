@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * PeriksaController implements the CRUD actions for Periksa model.
  */
-class PeriksaController extends Controller
+class PeriksaController extends BaseController
 {
     /**
      * @inheritdoc
